@@ -1,17 +1,23 @@
-const redisClient = require('../config/redisClient');
+const redis = require('redis');
 const { storeCryptoStats } = require('../services/cryptoService');
 
-const subscribeToRedis = () => {
-  redisClient.subscribe('crypto.update', () => {
-    console.log('Subscribed to crypto.update channel');
-  });
+const subscribeToRedis = async () => {
+  try {
+    const subscriber = redis.createClient({ url: process.env.REDIS_URL });
+    
+    subscriber.on('error', (err) => console.error('Redis Subscriber Error', err));
 
-  redisClient.on('message', async (channel, message) => {
-    if (channel === 'crypto.update') {
-      console.log('Received update event:', message);
+    await subscriber.connect();
+
+    await subscriber.subscribe('crypto.update', async (message) => {
+      console.log('📩 Received update event:', message);
       await storeCryptoStats();
-    }
-  });
+    });
+
+    console.log('✅ Subscribed to crypto.update channel');
+  } catch (err) {
+    console.error('❌ Redis Subscription failed:', err);
+  }
 };
 
 module.exports = subscribeToRedis;

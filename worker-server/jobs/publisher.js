@@ -3,7 +3,7 @@ const redisClient = require('../config/redisClient');
 
 // Schedule job every 15 minutes
 const startPublisherJob = () => {
-  cron.schedule('*/15 * * * *', async () => {
+  cron.schedule('*/1 * * * *', async () => {
     const message = JSON.stringify({ trigger: 'update' });
 
     try {

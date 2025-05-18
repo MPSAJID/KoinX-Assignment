@@ -2,21 +2,46 @@ const axios = require('axios');
 const CryptoStat = require('../models/CryptoStat');
 
 const storeCryptoStats = async () => {
-  const url = `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,matic-network&vs_currencies=usd&include_market_cap=true&include_24hr_change=true`;
+  try {
+    console.log('🔁 Fetching crypto stats from CoinGecko...');
 
-  const { data } = await axios.get(url);
+    const response = await axios.get(
+      'https://api.coingecko.com/api/v3/simple/price',
+      {
+        params: {
+          ids: 'bitcoin,ethereum,matic-network',
+          vs_currencies: 'usd',
+          include_market_cap: true,
+          include_24hr_change: true,
+        },
+      }
+    );
 
-  const coins = ['bitcoin', 'ethereum', 'matic-network'];
+    const data = response.data;
 
-  for (let coin of coins) {
-    await CryptoStat.create({
-      coin,
-      price: data[coin].usd,
-      marketCap: data[coin].usd_market_cap,
-      change24h: data[coin].usd_24h_change,
-    });
+    console.log('✅ CoinGecko data received:', data);
+
+    const entries = Object.entries(data);
+
+    for (const [coin, stats] of entries) {
+      const doc = new CryptoStat({
+        coin,
+        price: stats.usd,
+        marketCap: stats.usd_market_cap,
+        change24h: stats.usd_24h_change,
+        timestamp: new Date(),
+      });
+
+      await doc.save();
+      console.log(`💾 Stored stats for ${coin}`);
+    }
+
+    console.log('✅ All stats stored successfully');
+  } catch (err) {
+    console.error('❌ Error in storeCryptoStats:', err.message);
   }
 };
+
 
 const getLatestStats = async (coin) => {
   return await CryptoStat.findOne({ coin }).sort({ createdAt: -1 });
