@@ -2,6 +2,10 @@
 
 This is the main API server that exposes endpoints to retrieve cryptocurrency statistics stored in MongoDB. It also subscribes to updates via Redis Pub/Sub and triggers data collection.
 
+## deployed URL
+
+<https://koinx-assignment-u0wg.onrender.com>  
+  
 ## 📌 Features
 
 - REST API to expose stats.
@@ -13,14 +17,13 @@ This is the main API server that exposes endpoints to retrieve cryptocurrency st
 ## 📁 Folder Structure
 
 api-server/
-│
-├── controllers/
-├── models/
-├── routes/
-├── services/
-├── config/
-└── server.js
-
+│  
+├── controllers/  
+├── models/  
+├── routes/  
+├── services/  
+├── config/  
+└── server.js  
 
 ## 🚀 Getting Started
 
@@ -32,13 +35,13 @@ node index.js
 
 ## 🌐 API Endpoints
 
-GET /api/crypto/:coin
-GET /api/crypto/:coin/history
+GET /api/crypto/:coin  
+GET /api/crypto/:coin/history  
 
 ## 🔌 Environment Variables
 
 Create a .env file with:
 
-PORT=5000
-MONGO_URI=<your_mongodb_uri>
-REDIS_URL=<your_redis_url>
+PORT=5000  
+MONGO_URI=<your_mongodb_uri>  
+REDIS_URL=<your_redis_url>  

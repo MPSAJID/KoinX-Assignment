@@ -10,13 +10,12 @@ This worker service listens to Redis Pub/Sub (`crypto.update`) and fetches fresh
 
 ## 📁 Folder Structure
 
-worker-server/
-│
-├── config/
-├── services/
-├── cron/
+worker-server/  
+│  
+├── config/  
+├── services/  
+├── cron/  
 └── index.js
-
 
 ## 🛠 Setup
 
@@ -30,8 +29,8 @@ node index.js
 
 Create a .env file with:
 
-MONGO_URI=<your_mongodb_uri>
-REDIS_URL=redis://localhost:6379
+MONGO_URI=<your_mongodb_uri>  
+REDIS_URL=redis://localhost:6379  
 
 ## ⏰ Cron Job
 
