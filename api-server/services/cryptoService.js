@@ -7,7 +7,9 @@ const storeCryptoStats = async () => {
 
     const response = await axios.get(
       'https://api.coingecko.com/api/v3/simple/price',
-      {
+      {  headers: {
+    'User-Agent': 'KoinX-Assignment/1.0 (ajack6590@gmail.com)'
+  },
         params: {
           ids: 'bitcoin,ethereum,matic-network',
           vs_currencies: 'usd',
